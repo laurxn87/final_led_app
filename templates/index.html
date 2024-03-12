@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- print trackname and artist -->
+    <h2>PLAYING: {{ trackname }} by {{ artist }}</h2>
+    <!-- run js function checkPlaying() to check if currently playing song is updated -->
+
+    <script type="text/javascript">
+        // checkPlaying(trackname, artist) function to check if currently playing song is updated
+        setInterval(checkPlaying("{{ trackname }}", "{{ artist }}"), 100);
+</script>
+
+{% endblock %}
