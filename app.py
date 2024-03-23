@@ -9,7 +9,7 @@ client_credentials_manager = SpotifyClientCredentials()
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 username = os.getenv("SPOTIPY_CLIENT_USERNAME")
-scope = 'streaming'
+scope = 'user-read-playback-state'
 token = spotipy.util.prompt_for_user_token(username, scope)
 if token:
     print("Got token for", username)
@@ -21,7 +21,10 @@ app = Flask(__name__)
 
 messages = []
 
-arduino = serial.Serial('/dev/cu.usbmodem14201', 9600)
+# check arduino is available 
+arduino = None
+if os.path.exists('/dev/cu.usbmodem14201'):
+    arduino = serial.Serial('/dev/cu.usbmodem14201', 9600)
 
 
 @app.route('/')
@@ -32,7 +35,8 @@ def index():
         trackname = track['name']
         artist = track['artists'][0]['name']
 
-        arduino.write(b'1') # send 1 to arduino
+        if arduino:
+            arduino.write(b'1') # send 1 to arduino
 
         return render_template('index.html', trackname=trackname, artist=artist)
     else:
