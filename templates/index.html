@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <!-- print trackname and artist -->
-    <h2>PLAYING: {{ trackname }} by {{ artist }}</h2>
-    <!-- run js function checkPlaying() to check if currently playing song is updated -->
+<!-- import js script -->
+    <script type="text/javascript" src="../static/js/script.js"></script>
 
-    <script type="text/javascript">
-        // checkPlaying(trackname, artist) function to check if currently playing song is updated
-        setInterval(checkPlaying("{{ trackname }}", "{{ artist }}"), 100);
-</script>
+    <h2>PLAYING: {{ trackname }} by {{ artist }}</h2>
+    <!-- print every second -->
+    <script>
+        setInterval(function() {
+            window.location.reload();
+            checkPlaying("{{ trackname }}", "{{ artist }}");
+        }
+        , 1000);
+    </script>
+
 
 {% endblock %}
